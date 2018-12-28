@@ -66,7 +66,7 @@ for i = 1:size(f,1)
         M_ = M_values(j);
 
         % Decay amplitudes for J >= M >= -J
-        f(i,j) = wignerD(theta,phi,lambda,M_,J) * T(lambda_index(i,1),lambda_index(i,1));
+        f(i,j) = wignerD(theta,phi,lambda,M_,J) * T(lambda_index(i,1),lambda_index(i,2));
     end
 end
 
