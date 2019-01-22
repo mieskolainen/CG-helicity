@@ -228,9 +228,6 @@ for s = 0:statistics:s1+s2
                   fprintf(fileID, 'l = %s, s = %s : \\lambda = %2s, \\lambda_1 = %2s \\lambda_2 = %2s, P = %5s, J = %5s, <cg1> x <cg2> = %s x %s \n', ...
                   spin2string(l), spin2string(s), spin2string(lambda), spin2string(lambda1), spin2string(lambda2), ...
                   parity_conservation, J_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
-
-                  fprintf(fileID, 'l = %0.1f, s = %0.1f : T = <cg1> x <cg2> = %0.3f x %0.3f \t: lambda = %0.1f, lambda1 = %0.1f lambda2 = %0.1f,    \tP = %s, \tJ = %s \n', ...
-                  l, s, cg1, cg2, lambda,lambda1,lambda2, parity_conservation, J_conservation);
                 end
                 
                 values1(end+1) = cg1;
