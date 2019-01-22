@@ -1,7 +1,9 @@
+<<<<<<< HEAD
 % Create table of relative decay helicity amplitude couplings in the
 % Jacob-Wick helicity formalism
 %
 % See:
+=======
 % Create table of spin-couplings using Jacob-Wick helicity formalism
 %
 % See for example:
@@ -135,6 +137,7 @@ T = zeros(size(qn,1),1);
 
 fileID = fopen('QNtable.txt','w');
 
+<<<<<<< HEAD
 fprintf(fileID, 'Mikael Mieskolainen, 2018 \n');
 fprintf(fileID, '\n');
 fprintf(fileID, 'Helicity decay matrix T elements defined as: \n\n');
@@ -150,8 +153,6 @@ fprintf(fileID, '\\vec{l} = \\vec{J} - \\vec{s}, 0 <= |l| <= |J| + |s| (by tria
 
 
 for i = 1:size(qn,1)
-
-fprintf('%d/%d \n', i, size(qn,1));
 
 fprintf(fileID, '\nDecay %d/%d \t\t\t\t \n', i, size(qn,1));
 
