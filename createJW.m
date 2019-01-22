@@ -183,8 +183,8 @@ warning off;
 %statistics = 0.5;   % both Fermions & Bosons
 statistics = 1.0;    % Bosons only
 
-for s = -(s1+s2):statistics:s1+s2
-    for l = -(J+s):statistics:J+s
+for s = 0:statistics:s1+s2 % |s| <= |s1| + |s2|
+    for l = 0:statistics:J+s % |l| <= |J| + |s|
         for lambda1 = -s1:statistics:s1
             for lambda2 = -s2:statistics:s2
                 
@@ -214,14 +214,14 @@ for s = -(s1+s2):statistics:s1+s2
                 
                 % --------------------------------------------------------
                 % [3. Angular Momentum Conservation of z-axis quantities]
-                %if (abs(lambda1 - lambda2) <= J)
+                if (abs(lambda1 - lambda2) <= J)
                     J_conservation = 'OK';
-                %else
-                %    J_conservation = 'FALSE';
-                %end
+                else
+                    J_conservation = 'FALSE';
+                end
                 
-                if (cg1*cg2 ~= 0 && strncmp(J_conservation, 'OK', 1))
-
+                if (cg1*cg2 > 1e-6 && strncmp(J_conservation, 'OK', 1))
+                    
                   fprintf(fileID, 'l = %s, s = %s, \\lambda_1 = %2s \\lambda_2 = %2s : \\lambda = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
                   spin2string(l), spin2string(s), spin2string(lambda1), spin2string(lambda2), spin2string(lambda), ...
                   parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));

@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 % Create table of relative decay helicity amplitude couplings in the
 % Jacob-Wick helicity formalism
 %
 % See:
-=======
 % Create table of spin-couplings using Jacob-Wick helicity formalism
 %
 % See for example:
@@ -133,19 +131,22 @@ end
 
 %% Now calculate all possible A->1+2 decay helicity amplitudes
 
-T = zeros(size(qn,1),1);
+T    = zeros(size(qn,1),1);
+T_PC = zeros(size(qn,1),1);
 
 fileID = fopen('QNtable.txt','w');
 
-<<<<<<< HEAD
 fprintf(fileID, 'Mikael Mieskolainen, 2018 \n');
 fprintf(fileID, '\n');
-fprintf(fileID, 'Helicity decay matrix T elements defined as: \n\n');
+fprintf(fileID, 'Helicity decay matrix T (2s_1 + 1)x(2s_2 + 1) elements defined as: \n\n');
 fprintf(fileID, 'T_{\\lambda_1, \\lambda_2} \n');
-fprintf(fileID, '= \\sum_{ls} \\alpha_{ls} <J\\lambda | ls 0 \\lambda> <s\\lambda | s_1 s_2 \\lambda_1 -\\lambda_2>\n');
+fprintf(fileID, '= \\sum_{ls} \\alpha_{ls} <J \\lambda | l s 0 \\lambda> <s \\lambda | s_1 s_2 \\lambda_1 -\\lambda_2>\n');
 fprintf(fileID, ':= \\sum_{ls} \\alpha_{ls} <clebsch-gordan1> <clebsch-gordan2>,');
 fprintf(fileID, '\n');
 fprintf(fileID, 'where \\alpha_{ls} are free parameters (from theory/experiment).\n');
+fprintf(fileID, '\n');
+fprintf(fileID, 'Helicity is \\lambda = \\vec{J}.\\vec{p}/|p| = \\vec{l}.\\vec{p}/|p| + m_s = m_s, \n');
+fprintf(fileID, 'since (\\vec{l}.\\vec{p} = 0 always), -s <= m_s <= s \n');
 fprintf(fileID, '\n');
 fprintf(fileID, '\\lambda := \\lambda_1 - \\lambda_2 (Jacob-Wick) \n');
 fprintf(fileID, '\\vec{s} = \\vec{s_1} + \\vec{s_2}, 0 <= |s| <= |s_1| + |s_2| \n');
@@ -153,6 +154,8 @@ fprintf(fileID, '\\vec{l} = \\vec{J} - \\vec{s}, 0 <= |l| <= |J| + |s| (by tria
 
 
 for i = 1:size(qn,1)
+
+fprintf('%d/%d \n', i, size(qn,1));
 
 fprintf(fileID, '\nDecay %d/%d \t\t\t\t \n', i, size(qn,1));
 
@@ -169,13 +172,16 @@ s2 = qn(i,3);
 values1 = [];
 values2 = [];
 
+values1_PC = [];
+values2_PC = [];
+
 % Vector relations
 % \vec{s} = \vec{s1} + \vec{s2}   % Jacob & Wick
 % \vec{l} = \vec{J}  - \vec{s};   % By definition
 warning off;
 
 %statistics = 0.5;   % both Fermions & Bosons
-statistics = 1.0;   % Bosons only
+statistics = 1.0;    % Bosons only
 
 for s = 0:statistics:s1+s2
     for l = 0:statistics:J+s
@@ -195,19 +201,9 @@ for s = 0:statistics:s1+s2
                 % <s lambda | s1 s2 lambda1 -lambda2> (note minus on
                 % lambda2!)
                 [cg2,cg2num,cg2den] = clebschgordan(s1,s2,lambda1,-lambda2,  s,lambda);
-                
+         
                 % --------------------------------------------------------
-                % [2. Check parity conservation]
-                lambda = lambda1 - lambda2;
-                
-                % 1. Construct Glebsch-Gordans
-                % clebschgordan(j1,j2,m1,m2,J,M)
-                cg1 = clebschgordan(l,s,0,lambda,J,lambda);
-                cg2 = clebschgordan(s1,s2,lambda1,-lambda2,s,lambda);
-                
                 % 2. Check parity conservation
-                % Parity of two meson system P_tot = P_1*P_2*(-1)^L
-
                 P_tot = parity(i,2)*parity(i,3)*(-1)^l;
                 
                 if (parity(i,1) == P_tot)
@@ -222,26 +218,33 @@ for s = 0:statistics:s1+s2
                     J_conservation = 'OK';
                 else
                     J_conservation = 'FALSE';
+                    fprintf('J_conservation = FALSE
                 end
                 
-                if (cg1*cg2 ~= 0 && strncmp(J_conservation, 'OK', 1))
-
-                  fprintf(fileID, 'l = %s, s = %s : \\lambda = %2s, \\lambda_1 = %2s \\lambda_2 = %2s, P = %5s, J = %5s, <cg1> x <cg2> = %s x %s \n', ...
-                  spin2string(l), spin2string(s), spin2string(lambda), spin2string(lambda1), spin2string(lambda2), ...
-                  parity_conservation, J_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
-
-                  fprintf(fileID, 'l = %0.1f, s = %0.1f : T = <cg1> x <cg2> = %0.3f x %0.3f \t: lambda = %0.1f, lambda1 = %0.1f lambda2 = %0.1f,    \tP = %s, \tJ = %s \n', ...
-                  l, s, cg1, cg2, lambda,lambda1,lambda2, parity_conservation, J_conservation);
+                if (cg1*cg2 > 1e-6 && strncmp(J_conservation, 'OK', 1))
+                    
+                  fprintf(fileID, 'l = %s, s = %s, \\lambda_1 = %2s \\lambda_2 = %2s : \\lambda = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
+                  spin2string(l), spin2string(s), spin2string(lambda1), spin2string(lambda2), spin2string(lambda), ...
+                  parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
                 end
-                
+
+                % Save values
                 values1(end+1) = cg1;
                 values2(end+1) = cg2;
+                if (strncmp(parity_conservation, 'OK', 1))
+                    values1_PC(end+1) = cg1;
+                    values2_PC(end+1) = cg2;
+                end
             end
         end
     end
 end
 
-T(i) = sum(values1 .* values2);
+T(i)    = sum(values1 .* values2);
+T_PC(i) = sum(values1_PC .* values2_PC);
+
+fprintf(fileID, 'info: \\sum_{ls\\lambda1\\lambda2} <cg1> x <cg2> = %0.2f \n', T(i));
+fprintf(fileID, 'info: \\sum_{ls\\lambda1\\lambda2} <cg1> x <cg2> = %0.2f (P conserving) \n', T_PC(i));
 
 end
 fclose(fileID);
