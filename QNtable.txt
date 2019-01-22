@@ -3,9 +3,12 @@ Mikael Mieskolainen, 2018
 Helicity decay matrix T (2s_1 + 1)x(2s_2 + 1) elements defined as: 
 
 T_{\lambda_1, \lambda_2} 
-= \sum_{ls} \alpha_{ls} <J \lambda | l s 0 \lambda> <s\lambda | s_1 s_2 \lambda_1 -\lambda_2>
+= \sum_{ls} \alpha_{ls} <J \lambda | l s 0 \lambda> <s \lambda | s_1 s_2 \lambda_1 -\lambda_2>
 := \sum_{ls} \alpha_{ls} <clebsch-gordan1> <clebsch-gordan2>,
 where \alpha_{ls} are free parameters (from theory/experiment).
+
+Helicity is \lambda = \vec{J}.\vec{p}/|p| = \vec{l}.\vec{p}/|p| + m_s = m_s, 
+since (\vec{l}.\vec{p} = 0 always), -s <= m_s <= s 
 
 \lambda := \lambda_1 - \lambda_2 (Jacob-Wick) 
 \vec{s} = \vec{s_1} + \vec{s_2}, 0 <= |s| <= |s_1| + |s_2| 

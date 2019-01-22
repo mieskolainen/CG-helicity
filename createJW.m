@@ -140,10 +140,13 @@ fprintf(fileID, 'Mikael Mieskolainen, 2018 \n');
 fprintf(fileID, '\n');
 fprintf(fileID, 'Helicity decay matrix T (2s_1 + 1)x(2s_2 + 1) elements defined as: \n\n');
 fprintf(fileID, 'T_{\\lambda_1, \\lambda_2} \n');
-fprintf(fileID, '= \\sum_{ls} \\alpha_{ls} <J \\lambda | l s 0 \\lambda> <s\\lambda | s_1 s_2 \\lambda_1 -\\lambda_2>\n');
+fprintf(fileID, '= \\sum_{ls} \\alpha_{ls} <J \\lambda | l s 0 \\lambda> <s \\lambda | s_1 s_2 \\lambda_1 -\\lambda_2>\n');
 fprintf(fileID, ':= \\sum_{ls} \\alpha_{ls} <clebsch-gordan1> <clebsch-gordan2>,');
 fprintf(fileID, '\n');
 fprintf(fileID, 'where \\alpha_{ls} are free parameters (from theory/experiment).\n');
+fprintf(fileID, '\n');
+fprintf(fileID, 'Helicity is \\lambda = \\vec{J}.\\vec{p}/|p| = \\vec{l}.\\vec{p}/|p| + m_s = m_s, \n');
+fprintf(fileID, 'since (\\vec{l}.\\vec{p} = 0 always), -s <= m_s <= s \n');
 fprintf(fileID, '\n');
 fprintf(fileID, '\\lambda := \\lambda_1 - \\lambda_2 (Jacob-Wick) \n');
 fprintf(fileID, '\\vec{s} = \\vec{s_1} + \\vec{s_2}, 0 <= |s| <= |s_1| + |s_2| \n');
@@ -180,8 +183,8 @@ warning off;
 %statistics = 0.5;   % both Fermions & Bosons
 statistics = 1.0;    % Bosons only
 
-for s = 0:statistics:s1+s2
-    for l = 0:statistics:J+s
+for s = -(s1+s2):statistics:s1+s2
+    for l = -(J+s):statistics:J+s
         for lambda1 = -s1:statistics:s1
             for lambda2 = -s2:statistics:s2
                 
@@ -198,19 +201,9 @@ for s = 0:statistics:s1+s2
                 % <s lambda | s1 s2 lambda1 -lambda2> (note minus on
                 % lambda2!)
                 [cg2,cg2num,cg2den] = clebschgordan(s1,s2,lambda1,-lambda2,  s,lambda);
-                
+         
                 % --------------------------------------------------------
-                % [2. Check parity conservation]
-                lambda = lambda1 - lambda2;
-                
-                % 1. Construct Glebsch-Gordans
-                % clebschgordan(j1,j2,m1,m2,J,M)
-                cg1 = clebschgordan(l,s,0,lambda,J,lambda);
-                cg2 = clebschgordan(s1,s2,lambda1,-lambda2,s,lambda);
-                
                 % 2. Check parity conservation
-                % Parity of two meson system P_tot = P_1*P_2*(-1)^L
-
                 P_tot = parity(i,2)*parity(i,3)*(-1)^l;
                 
                 if (parity(i,1) == P_tot)
@@ -221,11 +214,11 @@ for s = 0:statistics:s1+s2
                 
                 % --------------------------------------------------------
                 % [3. Angular Momentum Conservation of z-axis quantities]
-                if (abs(lambda1 - lambda2) <= J)
+                %if (abs(lambda1 - lambda2) <= J)
                     J_conservation = 'OK';
-                else
-                    J_conservation = 'FALSE';
-                end
+                %else
+                %    J_conservation = 'FALSE';
+                %end
                 
                 if (cg1*cg2 ~= 0 && strncmp(J_conservation, 'OK', 1))
 
