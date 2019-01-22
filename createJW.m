@@ -131,7 +131,8 @@ end
 
 %% Now calculate all possible A->1+2 decay helicity amplitudes
 
-T = zeros(size(qn,1),1);
+T    = zeros(size(qn,1),1);
+T_PC = zeros(size(qn,1),1);
 
 fileID = fopen('QNtable.txt','w');
 
@@ -168,13 +169,16 @@ s2 = qn(i,3);
 values1 = [];
 values2 = [];
 
+values1_PC = [];
+values2_PC = [];
+
 % Vector relations
 % \vec{s} = \vec{s1} + \vec{s2}   % Jacob & Wick
 % \vec{l} = \vec{J}  - \vec{s};   % By definition
 warning off;
 
 %statistics = 0.5;   % both Fermions & Bosons
-statistics = 1.0;   % Bosons only
+statistics = 1.0;    % Bosons only
 
 for s = 0:statistics:s1+s2
     for l = 0:statistics:J+s
@@ -225,19 +229,28 @@ for s = 0:statistics:s1+s2
                 
                 if (cg1*cg2 ~= 0 && strncmp(J_conservation, 'OK', 1))
 
-                  fprintf(fileID, 'l = %s, s = %s : \\lambda = %2s, \\lambda_1 = %2s \\lambda_2 = %2s, P = %5s, J = %5s, <cg1> x <cg2> = %s x %s \n', ...
+                  fprintf(fileID, 'l = %s, s = %s : \\lambda = %2s, \\lambda_1 = %2s \\lambda_2 = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
                   spin2string(l), spin2string(s), spin2string(lambda), spin2string(lambda1), spin2string(lambda2), ...
-                  parity_conservation, J_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
+                  parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
                 end
-                
+
+                % Save values
                 values1(end+1) = cg1;
                 values2(end+1) = cg2;
+                if (strncmp(parity_conservation, 'OK', 1))
+                    values1_PC(end+1) = cg1;
+                    values2_PC(end+1) = cg2;
+                end
             end
         end
     end
 end
 
-T(i) = sum(values1 .* values2);
+T(i)    = sum(values1 .* values2);
+T_PC(i) = sum(values1_PC .* values2_PC);
+
+fprintf(fileID, '\\sum_{ls} <cg1> x <cg2> = %0.1f \n', T(i));
+fprintf(fileID, '\\sum_{ls} <cg1> x <cg2> = %0.1f (P conserving) \n', T_PC(i));
 
 end
 fclose(fileID);
