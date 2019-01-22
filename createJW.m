@@ -151,7 +151,8 @@ fprintf(fileID, '\n');
 fprintf(fileID, '\\lambda := \\lambda_1 - \\lambda_2 (Jacob-Wick) \n');
 fprintf(fileID, '\\vec{s} = \\vec{s_1} + \\vec{s_2}, 0 <= |s| <= |s_1| + |s_2| \n');
 fprintf(fileID, '\\vec{l} = \\vec{J} - \\vec{s}, 0 <= |l| <= |J| + |s| (by triangle ineq.) \n');
-
+fprintf(fileID, '\n');
+fprintf(fileID, '\n');
 
 for i = 1:size(qn,1)
 
