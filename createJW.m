@@ -229,8 +229,8 @@ for s = 0:statistics:s1+s2
                 
                 if (cg1*cg2 ~= 0 && strncmp(J_conservation, 'OK', 1))
 
-                  fprintf(fileID, 'l = %s, s = %s : \\lambda = %2s, \\lambda_1 = %2s \\lambda_2 = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
-                  spin2string(l), spin2string(s), spin2string(lambda), spin2string(lambda1), spin2string(lambda2), ...
+                  fprintf(fileID, 'l = %s, s = %s, \\lambda_1 = %2s \\lambda_2 = %2s : \\lambda = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
+                  spin2string(l), spin2string(s), spin2string(lambda1), spin2string(lambda2), spin2string(lambda), ...
                   parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
                 end
 
@@ -249,8 +249,8 @@ end
 T(i)    = sum(values1 .* values2);
 T_PC(i) = sum(values1_PC .* values2_PC);
 
-fprintf(fileID, '\\sum_{ls} <cg1> x <cg2> = %0.1f \n', T(i));
-fprintf(fileID, '\\sum_{ls} <cg1> x <cg2> = %0.1f (P conserving) \n', T_PC(i));
+fprintf(fileID, 'info: \\sum_{ls\\lambda1\\lambda2} <cg1> x <cg2> = %0.2f \n', T(i));
+fprintf(fileID, 'info: \\sum_{ls\\lambda1\\lambda2} <cg1> x <cg2> = %0.2f (P conserving) \n', T_PC(i));
 
 end
 fclose(fileID);
