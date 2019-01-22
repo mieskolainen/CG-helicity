@@ -138,7 +138,7 @@ fileID = fopen('QNtable.txt','w');
 
 fprintf(fileID, 'Mikael Mieskolainen, 2018 \n');
 fprintf(fileID, '\n');
-fprintf(fileID, 'Helicity decay matrix T elements defined as: \n\n');
+fprintf(fileID, 'Helicity decay matrix T (2s_1 + 1)x(2s_2 + 1) elements defined as: \n\n');
 fprintf(fileID, 'T_{\\lambda_1, \\lambda_2} \n');
 fprintf(fileID, '= \\sum_{ls} \\alpha_{ls} <J\\lambda | ls 0 \\lambda> <s\\lambda | s_1 s_2 \\lambda_1 -\\lambda_2>\n');
 fprintf(fileID, ':= \\sum_{ls} \\alpha_{ls} <clebsch-gordan1> <clebsch-gordan2>,');
