@@ -179,6 +179,7 @@ values2_PC = [];
 % Vector relations
 % \vec{s} = \vec{s1} + \vec{s2}   % Jacob & Wick
 % \vec{l} = \vec{J}  - \vec{s};   % By definition
+
 warning off;
 
 %statistics = 0.5;   % both Fermions & Bosons
@@ -221,11 +222,11 @@ for s = 0:statistics:s1+s2 % |s| <= |s1| + |s2|
                     J_conservation = 'FALSE';
                 end
                 
-                if (cg1*cg2 > 1e-6 && strncmp(J_conservation, 'OK', 1))
-                    
-                  fprintf(fileID, 'l = %s, s = %s, \\lambda_1 = %2s \\lambda_2 = %2s : \\lambda = %2s, P = %5s, <cg1> x <cg2> = %s x %s \n', ...
+                if (abs(cg1*cg2) > 1e-6 && strncmp(J_conservation, 'OK', 1))
+                  
+                  fprintf(fileID, 'l = %s, s = %s, \\lambda_1 = %2s \\lambda_2 = %2s : \\lambda = %2s, P = %5s, <cg1> x <cg2> = %s x %s (%0.3f) \n', ...
                   spin2string(l), spin2string(s), spin2string(lambda1), spin2string(lambda2), spin2string(lambda), ...
-                  parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den));
+                  parity_conservation, cg2string(cg1,cg1num,cg1den), cg2string(cg2,cg2num,cg2den), cg1*cg2);
                 end
 
                 % Save values
