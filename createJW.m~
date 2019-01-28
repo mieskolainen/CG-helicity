@@ -183,10 +183,10 @@ values2_PC = [];
 
 warning off;
 
-for s = 0:s1+s2 % |s| <= |s1| + |s2|
-    for l = 0:J+s % |l| <= |J| + |s|
-        for lambda1 = -s1:s1
-            for lambda2 = -s2:s2
+for s = 0:statistics:s1+s2 % |s| <= |s1| + |s2|
+    for l = 0:statistics:J+s % |l| <= |J| + |s|
+        for lambda1 = -s1:1:s:s1
+            for lambda2 = -s2:statistics:s2
                 
                 % --------------------------------------------------------
                 % [0. Definition]
