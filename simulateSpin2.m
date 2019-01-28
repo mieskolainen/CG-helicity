@@ -37,7 +37,7 @@ for J = 1:2
     % Simulate each pure states
     for kk = 1:2*J+1
 
-        % Loop over diagonal [J <= M <= -J]
+        % Loop over diagonal [-J <= M <= J]
         rho_i = zeros(2*J+1); rho_i(kk,kk) = 1; 
         [X,weights] = spindecay(rho_i, s1, s2, T, N, 0, 0);
         
