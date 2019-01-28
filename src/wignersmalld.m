@@ -7,6 +7,8 @@
 % - spin projections m, m'
 % - total angular momentum J
 %
+% https://en.wikipedia.org/wiki/Wigner_D-matrix
+%
 % mikael.mieskolainen@cern.ch, 2017
 
 function element = wignersmalld(theta, m, mp, J)

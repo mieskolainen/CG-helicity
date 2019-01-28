@@ -9,35 +9,18 @@ function W = gethelamp(theta, phi, rho_i, s1, s2, T, theta_mother, phi_mother)
 % Mother spin
 J = (size(rho_i,1)-1)/2;
 
-% Spin statistics
-if (cint(J) == true) 
-    J_statistics = 1;    % Bose-Einstein
-else
-    J_statistics = 0.5;  % Fermi-Dirac
-end
-if (cint(s1) == true)
-    s1_statistics = 1;   % BE
-else
-    s1_statistics = 0.5; % FD
-end
-if (cint(s2) == true)
-    s2_statistics = 1;   % BE
-else
-    s2_statistics = 0.5; % FD
-end
-
 % Construct initial state angular momentum quantization values
 % -J <= M <= J 
-M_values = J:-J_statistics:-J; % positive -> negative
+M_values = -J:J; % negative to positive
 
 % Construct final state helicity configurations
 lambda_values = zeros((2*s1+1)*(2*s2+1), 2);
 lambda_index  = size(lambda_values);            % For indexing T matrix
 i = 1;
 mu = 1;
-for lambda1 = s1:-s1_statistics:-s1 % positive -> negative
+for lambda1 = -s1:s1 % negative to positive
     nu = 1;
-    for lambda2 = s2:-s2_statistics:-s2 % positive -> negative
+    for lambda2 = -s2:s2 % negative to positive
         lambda_values(i,:) = [lambda1, lambda2];
         lambda_index(i,:)  = [mu,nu];
         i = i + 1;
@@ -48,7 +31,6 @@ end
 
 % Construct transition amplitude matrix
 f = zeros((2*s1+1)*(2*s2+1), 2*J+1);
-    
 
 % Rows = final state spin projections
 for i = 1:size(f,1)
@@ -65,7 +47,7 @@ for i = 1:size(f,1)
         % Pick mother helicity
         M_ = M_values(j);
 
-        % Decay amplitudes for J >= M >= -J
+        % Decay amplitudes for -J <= M <= J
         f(i,j) = wignerD(theta,phi,lambda,M_,J) * T(lambda_index(i,1),lambda_index(i,2));
     end
 end
