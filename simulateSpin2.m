@@ -59,10 +59,10 @@ for J = 1:2
         figure(fig2);
         stephistedge(xedge, sum(H',1) ); hold on;
         xlabel('$\cos(\theta)$','interpreter','latex');
-        title(sprintf('Pure states $|J,\\lambda \\rangle$'),'interpreter','latex'); 
+        title(sprintf('Pure states $|J,J_z \\rangle$'),'interpreter','latex'); 
         legs{kk} = sprintf('$|%d,%d \\rangle$', J, M(kk));
     end
-
+    
     figure(fig1);
     filename = sprintf('./figs/J%d_pure_2D.pdf', J);
     cmd = sprintf('print -dpdf %s', filename);

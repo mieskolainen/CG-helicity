@@ -44,7 +44,7 @@ for i = 1:size(f,1)
     % Columns = initial state spin projections
     for j = 1:size(f,2)
 
-        % Pick mother helicity
+        % Pick mother spin projection
         M_ = M_values(j);
 
         % Decay amplitudes for -J <= M <= J
@@ -60,9 +60,8 @@ for i = 1:size(D_,1)
     end
 end
 
-% Rotate the initial state density matrix in the mother helicity frame
-% to the pp-frame -> Mixing of pure states
-rho_i_rot = D_*rho_i*D_';
+% Rotate the initial state density matrix
+rho_i_rot = D_'*rho_i*D_;
 
 % Weight of the event by the density matrix formalism
 W = real( trace(f*rho_i_rot*f') );
